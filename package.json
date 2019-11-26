@@ -1,0 +1,22 @@
+{
+  "name": "tmt250-node",
+  "version": "0.1.0",
+  "description": "TMT250 driver for NodeJS.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/klemenkenda/tmt250-node.git"
+  },
+  "keywords": [
+    "tmt250"
+  ],
+  "author": "Klemen Kenda",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/klemenkenda/tmt250-node/issues"
+  },
+  "homepage": "https://github.com/klemenkenda/tmt250-node#readme"
+}
