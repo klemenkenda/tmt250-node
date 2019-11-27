@@ -49,4 +49,4 @@ Maximum AVL packet size for one record iz *783* bytes.
 * 2 Bytes - 1st IO Value
 * ...
 
-ID's can be obtained in TMT250 Protocols V1.2 manual.
+ID's can be obtained in [TMT250 Protocols V1.2 manual](http://ivanglonassov.ru/upload/iblock/204/TMT250-Protocols-V-1.2.pdf).
