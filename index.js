@@ -7,7 +7,7 @@ class TMT250AVL {
     }
 
     identify(buffer) {
-
+        console.log(buffer);
     }
 
     decodeAVL(buffer) {
@@ -16,4 +16,4 @@ class TMT250AVL {
 
 }
 
-exports.default = TMT250AVL;
+module.exports = TMT250AVL;
