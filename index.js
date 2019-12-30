@@ -43,10 +43,26 @@ class TMT250AVL {
         while (remaining_data !== 0) {
             // extract timestamp
             let timestamp = buffer.readInt32BE(pointer) * 2**32 + buffer.readInt32BE(pointer + 4);
+            // extract priority
+            let priority = buffer[pointer + 8];
+            // extract GPS element
+            let lon = buffer.readInt32BE(pointer + 9) / 10**7;
+            let lat = buffer.readInt32BE(pointer + 13) / 10**7;
+            let alt = buffer.readInt16BE(pointer + 17);
+            let angle = buffer.readInt16BE(pointer + 19);
+            let satellites = buffer[pointer + 21];
+            let speed = buffer.readInt16BE(pointer + 22);
 
             // add record
             this.packet.records.push({
-                timestamp: timestamp
+                timestamp: timestamp,
+                priority: priority,
+                lon: lon,
+                lat: lat,
+                alt: alt,
+                angle: angle,
+                sattelites: satellites,
+                speed: speed
             })
 
             remaining_data = 0;
