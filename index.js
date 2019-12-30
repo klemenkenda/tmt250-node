@@ -4,6 +4,7 @@ class TMT250AVL {
         this.remote = remote;
         this.port = port;
         this.IMEI = "";
+        this.packet = {};
     }
 
     identify(buffer) {
@@ -12,12 +13,24 @@ class TMT250AVL {
         if (IMEI.length === length) {
             this.IMEI = IMEI;
             return true;
+            this.packet = {};
         }
         return false;
     }
 
     decodeAVL(buffer) {
+        // check zeroes
+        this.packet.zeroes = buffer.readInt32BE(0);
+        // extract length
+        this.packet.length = buffer.readInt32BE(4);
+        // extract codec ID
+        this.packet.codecID = buffer[8]
+        // extract number of data 1
+        this.packet.num_data_1 = buffer[9];
 
+        console.log(this.packet);
+
+        return new Buffer.from([1, 2, 3]);
     }
 
 }
