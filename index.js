@@ -45,6 +45,8 @@ class TMT250AVL {
         this.packet.crc16 = buffer.readUInt16BE(pointer + 3);
         // check CRC16
         this.packet.crc16real = crc16(buffer.slice(8, pointer + 1));
+
+        return this.packet;
     }
 
     extractRecords(buffer) {
