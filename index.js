@@ -1,3 +1,5 @@
+const { crc16 } = require('crc');
+
 class TMT250AVL {
 
     constructor(remote, port) {
@@ -25,10 +27,18 @@ class TMT250AVL {
         this.packet.length = buffer.readInt32BE(4);
         // extract codec ID
         this.packet.codecID = buffer[8]
+
         // extract number of data 1
         this.packet.num_data = buffer[9];
+        // extract records
+        const pointer = this.extractRecords(buffer);
+        // extract number of data 2
+        this.packet.num_data_2 = buffer[pointer];
 
-        this.extractRecords(buffer);
+        // extract CRC16
+        this.packet.crc16 = buffer.readUInt16BE(pointer + 3);
+        // check CRC16
+        this.packet.crc16real = crc16(buffer.slice(8, pointer + 1));
 
         console.log(this.packet);
 
@@ -145,6 +155,7 @@ class TMT250AVL {
             remaining_data--;
         }
 
+        return pointer;
     }
 
 }

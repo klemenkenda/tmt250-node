@@ -21,5 +21,8 @@
   "homepage": "https://github.com/klemenkenda/tmt250-node#readme",
   "devDependencies": {
     "mocha": "^6.2.2"
+  },
+  "dependencies": {
+    "crc": "^3.8.0"
   }
 }
