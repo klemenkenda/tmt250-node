@@ -40,7 +40,7 @@ class TMT250AVL {
         let pointer = 10; // current pointer
         this.packet.records = [];
 
-        while (remaining_data !== 0) {
+        while (remaining_data > 0) {
             // extract timestamp
             let timestamp = buffer.readInt32BE(pointer) * 2**32 + buffer.readInt32BE(pointer + 4);
             // extract priority
@@ -53,6 +53,73 @@ class TMT250AVL {
             let satellites = buffer[pointer + 21];
             let speed = buffer.readInt16BE(pointer + 22);
 
+            // extract I/O elements
+            let event_io_id = buffer[pointer + 24];
+            let number_of_events = buffer[pointer + 25];
+
+            let n1 = buffer[pointer + 26];
+
+            // parse n1 events
+            let n1_events = [];
+            pointer += 27;
+
+            for (let i = 0; i < n1; i++) {
+                const event_id = buffer[pointer];
+                const value = buffer[pointer + 1];
+                pointer += 2;
+                n1_events.push({
+                    event_id: event_id,
+                    value: value
+                })
+            }
+
+            // parse n2 events
+            let n2 = buffer[pointer];
+            pointer++;
+            let n2_events = [];
+
+            for (let i = 0; i < n2; i++) {
+                const event_id = buffer[pointer];
+                const value = buffer.readInt16BE(pointer + 1);
+                pointer += 3;
+                n2_events.push({
+                    event_id: event_id,
+                    value: value
+                })
+            }
+
+            // parse n4 events
+            let n4 = buffer[pointer];
+            pointer++;
+            let n4_events = [];
+
+            for (let i = 0; i < n4; i++) {
+                const event_id = buffer[pointer];
+                const value = buffer.readInt32BE(pointer + 1);
+                pointer += 5;
+                n4_events.push({
+                    event_id: event_id,
+                    value: value
+                })
+            }
+
+            // parse n4 events
+            let n8 = buffer[pointer];
+            pointer++;
+            let n8_events = [];
+
+            for (let i = 0; i < n8; i++) {
+                const event_id = buffer[pointer];
+                const value = buffer.readInt32BE(pointer + 1) * 2**32 + buffer.readInt32BE(pointer + 5);
+                pointer += 9;
+                n8_events.push({
+                    event_id: event_id,
+                    value: value
+                })
+            }
+
+            console.log(n8_events);
+
             // add record
             this.packet.records.push({
                 timestamp: timestamp,
@@ -61,11 +128,21 @@ class TMT250AVL {
                 lat: lat,
                 alt: alt,
                 angle: angle,
-                sattelites: satellites,
-                speed: speed
+                satellites: satellites,
+                speed: speed,
+                event_io_id: event_io_id,
+                number_of_events: number_of_events,
+                n1: n1,
+                n1_events: n1_events,
+                n2: n2,
+                n2_events: n2_events,
+                n4: n4,
+                n4_events: n4_events,
+                n8: n8,
+                n8_events: n8_events
             })
 
-            remaining_data = 0;
+            remaining_data--;
         }
 
     }
