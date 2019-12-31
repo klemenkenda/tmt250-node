@@ -27,5 +27,9 @@ describe('AVL decoder', () => {
         decoder.decodeAVL(buff);
     });
 
+    it ('AVL response', () => {
+        let buff = decoder.generateAVLResponse();
+        assert.equal(buff.readInt32BE(0), 23);
+    })
 
 });

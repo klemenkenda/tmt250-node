@@ -20,6 +20,12 @@ class TMT250AVL {
         return false;
     }
 
+    generateAVLResponse() {
+        let buffer = new Buffer.alloc(4, 0);
+        buffer.writeInt32BE(this.packet.num_data, 0);
+        return buffer;
+    }
+
     decodeAVL(buffer) {
         // check zeroes
         this.packet.zeroes = buffer.readInt32BE(0);
@@ -39,10 +45,6 @@ class TMT250AVL {
         this.packet.crc16 = buffer.readUInt16BE(pointer + 3);
         // check CRC16
         this.packet.crc16real = crc16(buffer.slice(8, pointer + 1));
-
-        console.log(this.packet);
-
-        return new Buffer.from([1, 2, 3]);
     }
 
     extractRecords(buffer) {
@@ -127,8 +129,6 @@ class TMT250AVL {
                     value: value
                 })
             }
-
-            console.log(n8_events);
 
             // add record
             this.packet.records.push({
