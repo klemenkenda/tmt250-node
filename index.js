@@ -56,7 +56,7 @@ class TMT250AVL {
 
         while (remaining_data > 0) {
             // extract timestamp
-            let timestamp = buffer.readInt32BE(pointer) * 2**32 + buffer.readInt32BE(pointer + 4);
+            let timestamp = buffer.readUInt32BE(pointer) * 2**32 + buffer.readUInt32BE(pointer + 4);
             // extract priority
             let priority = buffer[pointer + 8];
             // extract GPS element
@@ -124,7 +124,7 @@ class TMT250AVL {
 
             for (let i = 0; i < n8; i++) {
                 const event_id = buffer[pointer];
-                const value = buffer.readInt32BE(pointer + 1) * 2**32 + buffer.readInt32BE(pointer + 5);
+                const value = buffer.readInt32BE(pointer + 1) * 2**32 + buffer.readInt32BE(pointer + 5); // testing bug
                 pointer += 9;
                 n8_events.push({
                     event_id: event_id,
